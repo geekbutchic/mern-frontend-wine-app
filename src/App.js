@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import WinesByRegion from "./pages/WinesByRegion";
+import SignInPage from "./pages/SignInPage";
+import CartPage from "./pages/CartPage";
+import HomeScreen from "./pages/HomeScreen";
+//CONTEXT PROVIDER IMPORTS
+import UserContextProvider from "./context/userContext";
+import ShoppingCartContextProvider from "./context/shoppingCartContext";
+import "./App.css";
+//REDUX STORE IMPORTS
+import { Provider } from "react-redux";
+import store from "./redux-state/store";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <UserContextProvider>
+        <ShoppingCartContextProvider>
+          <Routes>
+            <Route path="/" element={<HomeScreen />} />
+            <Route path="/wines-by-region" element={<WinesByRegion />} />
+            <Route path="/sign-in" element={<SignInPage />} />
+            <Route path="/cart" element={<CartPage />} />
+          </Routes>
+        </ShoppingCartContextProvider>
+      </UserContextProvider>
+    </Provider>
   );
-}
+};
 
 export default App;
