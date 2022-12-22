@@ -1,26 +1,27 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
-//REDUX HOLDS ENTIRE STORE
+import { configureStore } from "@reduxjs/toolkit";
+import { reducer } from "./userSlice";
 
-//SLICES FOR GLOBAL STATE REASONS
-const userSlice = createSlice({
-  name: "user",
-  initialState: null, //REDUX DOES NOT ACCEPT UNDEFINED AS A DEFAULT VALUE
-  reducers: {
-    //REDUCERS RETURN OUR STATE
-    //ACTION NAME
-    signInAction: (state, action) => action.payload,
-    signOutAction: (state, action) => null,
-  }
-})
-
-//ACTION CREATORS ARE FUNCTIONS THAT CREATE OUR ACTIONS
-export const { signInAction, signOutAction } = userSlice.actions;
+//CHECKS INITIAL STATE 
+const preloadedState = JSON.parse(localStorage.getItem("application"))
+  ? JSON.parse(localStorage.getItem("application"))
+  : { user: null };
 
 //REDUX STORE
 const store = configureStore({
   reducer: {
-    user: userSlice.reducer
-  }
+    user: reducer
+  },
+  preloadedState,
 });
 
-export default store 
+store.subscribe(() => {
+  //GET CURRENT STATE
+  const state = store.getState();
+  console.log(`Store State: `, state);
+  //GRAB STATE AND SAVE IN LOCAL STORAGE
+  //STRING OF DATA
+  localStorage.setItem("application", JSON.stringify(state));
+  //CONVERTS DATE INTO A STRING
+});
+
+export default store;

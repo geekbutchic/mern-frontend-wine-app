@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 // import { userContext } from "../context/userContext";
 import { shoppingCartContext } from "../context/shoppingCartContext";
+//REDUX IMPORT
 import { useSelector } from "react-redux";
 
 const Header = () => {
